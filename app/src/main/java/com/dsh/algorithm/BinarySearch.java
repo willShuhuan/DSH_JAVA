@@ -30,6 +30,7 @@ public class BinarySearch {
     }
 
     public static void main(String[] args) {
+
         BinarySearch bs = new BinarySearch();
         System.out.println("查找元素位置在"+bs.binary_search(new int[]{1,2,3,4,5,6,7,8,9,10,11},5));
         System.out.println("查找元素位置在"+bs.binary_search(new int[]{1,3,5,7,9,11},9));
