@@ -1,4 +1,4 @@
-package com.thingkinginjava.Initialization;
+package com.dsh.thingkinginjava.Initialization;
 
 /** 类的初始化
  * @author dongshuhuan

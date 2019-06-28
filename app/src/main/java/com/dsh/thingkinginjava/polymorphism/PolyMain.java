@@ -1,4 +1,4 @@
-package com.thingkinginjava.polymorphism;
+package com.dsh.thingkinginjava.polymorphism;
 
 /** Thinking in java 第八章
  * 多态部分代码

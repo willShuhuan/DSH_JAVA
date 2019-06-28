@@ -1,4 +1,4 @@
-package com.thingkinginjava.polymorphism;
+package com.dsh.thingkinginjava.polymorphism;
 
 import java.util.Random;
 

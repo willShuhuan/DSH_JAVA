@@ -1,4 +1,4 @@
-package com.thingkinginjava.polymorphism;
+package com.dsh.thingkinginjava.polymorphism;
 
 /**
  * @author dongshuhuan
@@ -13,5 +13,8 @@ public class Circle extends Shape {
 
     @Override public void erase() {
         System.out.println("circle earse");
+    }
+     public void drawCircle() {
+        System.out.println("circle drawCircle");
     }
 }

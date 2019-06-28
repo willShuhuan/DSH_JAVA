@@ -1,4 +1,4 @@
-package com.algorithm;
+package com.dsh.algorithm;
 
 /** 二分查找
  * @author dongshuhuan

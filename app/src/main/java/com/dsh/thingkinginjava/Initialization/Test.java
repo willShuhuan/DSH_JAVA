@@ -1,4 +1,4 @@
-package com.thingkinginjava.Initialization;
+package com.dsh.thingkinginjava.Initialization;
 
 import java.util.Arrays;
 import java.util.Random;
