@@ -1,11 +1,12 @@
-package com.thingkinginjava.Initializationtest;
+package com.dsh.thingkinginjava.Initializationtest;
+
 
 /**
  * @author dongshuhuan
  * date 2019/6/13
  * version
  */
-public class Class {
+public class Class  {
     String s;
     public Class(int i){
         System.out.println("init s = "+i);

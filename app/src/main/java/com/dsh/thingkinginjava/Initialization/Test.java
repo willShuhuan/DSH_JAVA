@@ -2,8 +2,8 @@ package com.dsh.thingkinginjava.Initialization;
 
 import java.util.Arrays;
 import java.util.Random;
-import com.thingkinginjava.Initializationtest.Class;
-import com.thingkinginjava.Initializationtest.Class2;
+import com.dsh.thingkinginjava.Initializationtest.Class;
+import com.dsh.thingkinginjava.Initializationtest.Class2;
 
 /**
  * @author dongshuhuan

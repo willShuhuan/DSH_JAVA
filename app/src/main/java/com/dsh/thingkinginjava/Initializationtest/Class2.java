@@ -1,4 +1,4 @@
-package com.thingkinginjava.Initializationtest;
+package com.dsh.thingkinginjava.Initializationtest;
 
 /**
  * @author dongshuhuan

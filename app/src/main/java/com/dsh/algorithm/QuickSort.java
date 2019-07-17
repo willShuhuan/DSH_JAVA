@@ -1,14 +1,16 @@
 package com.dsh.algorithm;
 
-/**
+/** 快速排序
  * @author dongshuhuan
  * date 2019/6/28
  * version
+ * 选择排序的运行时间O(n*logn)
  */
 public class QuickSort {
     public static void main(String[] args) {
 
         int[] arr2 = new int []{11,35,23,45,1,24,6,30,24};
+        //在特定条件下，将数组的第一个元素作为基准线效率不高，这会让调用栈特别长（参考图解算法第55页）
         quickSort(arr2,0,arr2.length-1);
         for (int i = 0; i < arr2.length; i++) {
             System.out.println("排序后数组-> "+i+"->"+arr2[i]);
@@ -60,7 +62,7 @@ public class QuickSort {
         arr2[left] = temp;     //left = 2；{6,1,11,45,23,24,35,30,24}，这里可以看出我们当以数组第0个数即11为基准数时，
                                 //找出其索引为2时，其前方的数比他小，后方的数比他大，从而实现分而治之的目的
         for (int i = 0; i < arr2.length; i++) {
-            System.out.println("找到基准线之后的数组为-> "+i+"->"+arr2[i]);
+            //System.out.println("找到基准线之后的数组为-> "+i+"->"+arr2[i]);
         }
         return left;
 
