@@ -1,8 +1,7 @@
 package com.dsh.thingkinginjava.polymorphism;
 
-import com.thingkinginjava.util.PrintUtil;
 
-import static com.thingkinginjava.util.PrintUtil.*;
+import static com.dsh.thingkinginjava.util.PrintUtil.print;
 
 /**
  * @author dongshuhuan

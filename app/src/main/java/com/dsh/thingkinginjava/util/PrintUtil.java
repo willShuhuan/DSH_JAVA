@@ -1,4 +1,4 @@
-package com.thingkinginjava.util;
+package com.dsh.thingkinginjava.util;
 
 /**
  * @author dongshuhuan
