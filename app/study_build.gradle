@@ -1,0 +1,224 @@
+import groovy.xml.MarkupBuilder
+
+/**
+ * gradle 学习专用
+*/
+
+
+
+////5 执行外部命令
+//task apkcopy(name:'apkcopy'){
+//    doLast {
+//        //gradle的阶段去执行
+//        def sourcePath = this.buildDir.path+'/outputs/apk'
+//        def desationPath = getRootProject().getRootDir().path+'/test/'
+//        def command = "mv -f ${sourcePath} ${desationPath}"
+//        exec{
+//            try {
+//                executable 'bash'
+//                args '-c',command
+//                println 'the command is execute success'
+//            } catch (GradleException e) {
+//                println 'the command is execute failed'
+//            }
+//        }
+//    }
+//}
+
+//-------------Task-------------
+//1.创建和配置
+//直接通过task函数去创建
+task helloTask{
+    println 'hello task'
+}
+//通过taskContainer去创建task
+this.tasks.create(name:'helloTask2'){
+    println 'hello task2'
+}
+//task配置 创建分组和描述信息
+task helloTask3(group:'dsh',description:'task study'){
+    //或者调用api方法
+//    setGroup('gradle')
+//    setDescription('task study')
+    println 'hello task3'
+}
+
+//-----------------------------------------------------------------------------
+//2 doFirst 和 doLast
+task helloTask4(group:'dsh',description:'task study4'){
+    println 'hello task4'
+    doFirst{
+        println 'the task group is'+group
+    }
+    doLast{}
+}
+helloTask4.doFirst{
+    println 'the task description is'+description
+}
+
+//-----------------------------------------------------------------------------
+//3 计算build执行阶段的时长
+def startBuildTime,endBuildTime
+//配置执行完的回调
+this.afterEvaluate { Project project ->
+    //保证要找的task已经配置完毕
+    def preBuildTask = project.tasks.getByName('preBuild')
+    preBuildTask.doFirst {
+        startBuildTime = System.currentTimeMillis()
+        println 'the start time is :'+startBuildTime//the start time is :1585203044860
+    }
+    def buildTask = project.tasks.getByName('build')
+    buildTask.doLast {
+        endBuildTime = System.currentTimeMillis()
+        println "the build time is: ${endBuildTime-startBuildTime}"//the build time is: 22684
+    }
+}
+
+//-----------------------------------------------------------------------------
+//4 task依赖
+task taskX{
+    println 'Task X show'
+    doFirst{
+        println 'Task X'
+    }
+}
+task taskY{
+    doLast{
+        println 'Task Y'
+    }
+}
+//添加依赖，taskZ在执行的时候先执行X和Y（并且X和Y执行顺序不一定），然后才打印'Task Z'
+task taskZ(dependsOn:[taskX,taskY]){
+    doLast{
+        println 'Task Z'
+    }
+}
+//也可以这样写
+//taskZ.dependsOn(taskX,taskY)
+
+//依赖所有以lib开头的task
+task taskW{
+    dependsOn this.tasks.findAll {
+        task -> return task.name.startsWith('lib')
+    }
+    doLast{
+        println 'Task W'
+    }
+}
+//def libs = this.tasks.findAll { task ->
+//    return task.name.startsWith('lib')
+//}
+//taskW dependsOn(libs)
+//'<<'追加符等效于doLast
+task lib1 <<{
+    println 'lib1'
+}
+task lib2 <<{
+    println 'lib2'
+}
+task nolib <<{
+    println 'nolib'
+}
+
+//-----------------------------------------------------------------------------
+// 5 task输入和输出
+//ext{
+//    versionName = '1.2.0'
+//    versionCode = '120'
+//    versionInfo = 'App的第3个版本，又上了一些新功能'
+//    destFile = file('releases.xml')
+//    if(destFile!=null&&!destFile.exists()){
+//        destFile.createNewFile()
+//    }
+//}
+//
+//task writeTask{
+//    //为task指定输入
+//    inputs.property('versionCode',this.versionCode)
+//    inputs.property('versionName',this.versionName)
+//    inputs.property('versionInfo',this.versionInfo)
+//    //为task指定输出
+//    outputs.file destFile
+//    doLast{
+//        def data = inputs.getProperties()
+//        File file = outputs.getFiles().getSingleFile()
+//        //将data转化为实体对象
+//        def versionMsg = new VersionMsg(data)
+//        //将实体对象转化为xml格式数据
+//        def sw = new StringWriter()
+//        def xmlBuilder = new MarkupBuilder(sw)
+//        if (file.text !=null &&file.text.size()<=0){
+//            //文件中没有内容
+//            xmlBuilder.release{
+//                release{
+//                    versionCode(versionMsg.versionCode)
+//                    versionName(versionMsg.versionName)
+//                    versionInfo(versionMsg.versionInfo)
+//                }
+//            }
+//            file.withWriter {writer -> weiter.append(sw.toString())}
+//        }else{
+//            //已有版本信息
+//            xmlBuilder.release{
+//                versionCode(versionMsg.versionCode)
+//                versionName(versionMsg.versionName)
+//                versionInfo(versionMsg.versionInfo)
+//            }
+//            //将生成的xml数据插入到根节点之前
+//            def lines = file.readLines()
+//            def lengths = lines.size()-1
+//            file.withWriter {writer ->
+//                lines.eachWithIndex{ String line, int index ->
+//                    if(index !=lengths){
+//                        writer.append(line +"\r\n")
+//                    }else if(index == lengths){
+//                        writer.append("\r\n"+sw.toString()+"\r\n")
+//                        writer.append(lines.get(lengths))
+//                    }
+//                }
+//            }
+//        }
+//    }
+//
+//}
+//
+//task readTask{
+//    inputs.file destFile
+//    doLast{
+//        def file = inputs.files.singleFile
+//        println file.text
+//    }
+//}
+//
+//class VersionMsg {
+//    String versionCode
+//    String versionInfo
+//    String versionName
+//}
+//
+//task taskTest{
+//    dependsOn readTask,writeTask
+//    doLast{
+//        println '输入输出任务结束'
+//    }
+//}
+
+//-----------------------------------------------------------------------------
+//6.mustRunAfter 指定先后执行顺序  X->Y->Z
+task taskX{
+    doFirst{
+        println 'Task X'
+    }
+}
+task taskY{
+    mustRunAfter taskX
+    doLast{
+        println 'Task Y'
+    }
+}
+task taskZ{
+    mustRunAfter taskY
+    doLast{
+        println 'Task Z'
+    }
+}

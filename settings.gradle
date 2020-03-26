@@ -1,1 +1,5 @@
 include ':app'
+//通过gradle.properties中enableLib属性 配置libModule是否加载
+if (hasProperty('enableLib')?enableLib.toBoolean():false){
+    include ':libmodule'
+}

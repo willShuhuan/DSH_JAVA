@@ -1,0 +1,9 @@
+//ext+闭包 扩展属性
+ext{
+    compileSdkVersion = 28
+    //定义一个map
+    android = [
+            versionCode       : 150,
+            versionName       : "1.5.0",
+    ]
+}

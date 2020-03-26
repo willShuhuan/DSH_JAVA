@@ -1,0 +1,23 @@
+<releases>
+    <release>
+        <versionCode>100</versionCode>
+        <versionName>1.0.0</versionName>
+        <versionInfo>App的第1个版本，上线了一些最基础核心的功能.</versionInfo>
+    </release>
+    <release>
+        <versionCode>110</versionCode>
+        <versionName>1.1.0</versionName>
+        <versionInfo>App的第2个版本，新增了一些功能.</versionInfo>
+    </release>
+    <release>
+      <versionCode>120</versionCode>
+      <versionName>1.2.0</versionName>
+      <versionInfo>App的第3个版本，又上了一些新功能</versionInfo>
+    </release>
+
+<release>
+  <versionCode>150</versionCode>
+  <versionName>1.5.0</versionName>
+  <versionInfo>App的第5个版本，又上了一些新功能</versionInfo>
+</release>
+</releases>

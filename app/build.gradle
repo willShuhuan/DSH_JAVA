@@ -1,13 +1,17 @@
 apply plugin: 'com.android.application'
+apply from: this.rootProject.file('versionInfo.gradle')
 
 android {
-    compileSdkVersion 28
+    //config.gradle 扩展属性 ext
+//    compileSdkVersion this.rootProject.ext.compileSdkVersion
+    // 也可以直接调用
+    compileSdkVersion this.compileSdkVersion
     defaultConfig {
-        applicationId "com.java.dsh.dsh_java"
+        applicationId applicationID
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode this.rootProject.ext.android["versionCode"]
+        versionName this.rootProject.ext.android["versionName"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -17,10 +21,12 @@ android {
         }
     }
 }
-
+//为应用程序添加第三方依赖
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
 }
+
+//-------------Task-------------

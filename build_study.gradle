@@ -1,4 +1,7 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+/**
+ * gradle 学习专用
+ */
+
 apply from: "config.gradle"
 buildscript { ScriptHandler scriptHandler ->
     //配置工程的仓库地址
@@ -16,7 +19,7 @@ buildscript { ScriptHandler scriptHandler ->
     }
     //配置工程的"插件"依赖地址
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.0.1'
     }
 }
 
