@@ -25,7 +25,7 @@ import groovy.xml.MarkupBuilder
 //    }
 //}
 
-//-------------Task-------------
+//-------------第四部分 Task详解-------------
 //1.创建和配置
 //直接通过task函数去创建
 task helloTask{

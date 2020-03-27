@@ -1,26 +1,92 @@
 apply plugin: 'com.android.application'
 apply from: this.rootProject.file('versionInfo.gradle')
+apply plugin: 'com.dsh.gradle.study'
+import com.dsh.gradle.study.VersionInfoTask
 
 android {
     //config.gradle 扩展属性 ext
-//    compileSdkVersion this.rootProject.ext.compileSdkVersion
+    // compileSdkVersion this.rootProject.ext.compileSdkVersion
     // 也可以直接调用
     compileSdkVersion this.compileSdkVersion
+    buildToolsVersion this.rootProject.ext.android["buildToolsVersion"]
+
     defaultConfig {
-        applicationId applicationID
-        minSdkVersion 19
-        targetSdkVersion 28
+        applicationId applicationID//使用gradle.properties 拓展属性
+        minSdkVersion this.rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion this.rootProject.ext.android["targetSdkVersion"]
         versionCode this.rootProject.ext.android["versionCode"]
         versionName this.rootProject.ext.android["versionName"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+    //指定jniLibs .so存放位置 libs(默认在src/main/jniLibs下)
+    sourceSets{
+        main {
+            jniLibs.srcDirs=['libs']
         }
     }
+    //    //资源分包
+    //    sourceSets{
+    //        main{
+    //            res.srcDirs = ['res/main/res','res/main/res_player']
+    //        }
+    //    }
+
+    buildTypes {
+        //自定义applicationId，appName
+        debug {
+            applicationIdSuffix applicationID_test
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [APP_NAME    : getAppName('debug')]
+        }
+
+        release {
+            applicationIdSuffix applicationID_release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [APP_NAME    : getAppName('release')]
+        }
+
+    }
+
+    //多渠道打包,三方统计
+    flavorDimensions "default"
+    productFlavors{
+        DshJava{}
+        _xiaomi{}
+        _huawei{}
+        _oppo{}
+        _vivo{}
+//        productFlavors.all { flavor ->
+//            flavor.manifestPlaceholders = [APP_DOWNLOAD_CHANNEL: name]
+//        }
+    }
+
+    //apk输出命名规范
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def releaseApkName = "app-v" +
+                    "${defaultConfig.versionName}-" +
+                    "${buildTime()}-"+
+                    "${variant.buildType.name}.apk"
+            outputFileName = new File(releaseApkName)
+        }
+    }
+
 }
+
+def getAppName(String type) {
+    return new String("JavaStudy_${type}")
+}
+
+def buildTime() {
+    def date = new Date()
+    def formattedDate = date.format('yyyy_MM_dd')
+    return formattedDate
+}
+
+
 //为应用程序添加第三方依赖
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -29,4 +95,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 }
 
-//-------------Task-------------
+//为自定义插件传递参数
+dshJavaVersionInfo{
+    versionName = rootProject.ext.android.versionName
+    versionCode = rootProject.ext.android.versionCode
+    versionInfo = 'App的第6个版本，我有自定义插件功能了哦'
+    fileName = 'releases.xml'
+}
+//自定义插件功能task执行
+task updateVersionInfo(type:VersionInfoTask)

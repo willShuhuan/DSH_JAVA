@@ -3,7 +3,13 @@ ext{
     compileSdkVersion = 28
     //定义一个map
     android = [
-            versionCode       : 150,
-            versionName       : "1.5.0",
+            versionCode       : 160,
+            versionName       : "1.6.0",
+            compileSdkVersion : 28,
+            buildToolsVersion : "28.0.3",
+            minSdkVersion     : 16,
+            targetSdkVersion  : 28
     ]
+
+
 }

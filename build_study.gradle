@@ -36,7 +36,8 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-//project相关api讲解
+// 第三部分 project相关api讲解
+
 //1. this.getProjects()
 //
 //def getProjects(){

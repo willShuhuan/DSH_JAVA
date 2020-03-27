@@ -20,4 +20,11 @@
   <versionName>1.5.0</versionName>
   <versionInfo>App的第5个版本，又上了一些新功能</versionInfo>
 </release>
+
+
+<release>
+  <versionCode>160</versionCode>
+  <versionName>1.6.0</versionName>
+  <versionInfo>App的第6个版本，我又自定义插件功能了哦</versionInfo>
+</release>
 </releases>
