@@ -4,11 +4,14 @@ apply plugin: 'com.dsh.gradle.study'
 import com.dsh.gradle.study.VersionInfoTask
 
 android {
+    //config.gradle 扩展属性 ext
+    // compileSdkVersion this.rootProject.ext.compileSdkVersion
+    // 也可以直接调用
     compileSdkVersion this.compileSdkVersion
     buildToolsVersion this.rootProject.ext.android["buildToolsVersion"]
 
     defaultConfig {
-        applicationId applicationID
+        applicationId applicationID//使用gradle.properties 拓展属性
         minSdkVersion this.rootProject.ext.android["minSdkVersion"]
         targetSdkVersion this.rootProject.ext.android["targetSdkVersion"]
         versionCode this.rootProject.ext.android["versionCode"]
@@ -16,20 +19,39 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
+    //指定jniLibs .so存放位置 libs(默认在src/main/jniLibs下)
     sourceSets{
         main {
             jniLibs.srcDirs=['libs']
         }
     }
+    //    //资源分包
+    //    sourceSets{
+    //        main{
+    //            res.srcDirs = ['res/main/res','res/main/res_player']
+    //        }
+    //    }
 
     buildTypes {
 
         debug {
-            applicationIdSuffix applicationID_test
-            debuggable true
+            //自定义applicationId，appName及一些其他属性
+            applicationIdSuffix applicationID_test//applicationId的后缀,相当于更改了applicationId,可以认为是一个新的应用
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             manifestPlaceholders = [APP_NAME    : getAppName('debug')]
+            //--------------------------------------------------------------------------------
+            debuggable true //默认false,是否开启断点调试
+            jniDebuggable true //默认false,是否开启jni的断点调试
+            renderscriptDebuggable true //默认false,是否开启 renderscript 断点调试
+            renderscriptOptimLevel 2 //renderscript的版本号
+            minifyEnabled true //默认false,是否混淆的开关
+            pseudoLocalesEnabled true //默认false,是否支持本地化整理
+            versionNameSuffix '.10' //版本名的后缀
+            zipAlignEnabled false //默认true,是否进行zip align优化
+            buildConfigField "boolean", "IS_DEBUG", "true"//为BuildConfig类创建一个常量,类型为boolean,变量名为IS_DEBUG,值为true
+            resValue "string", "name", "value" //在strings.xml中创建一个名为name,值为value的一个字符串资源
+
         }
 
         release {
@@ -41,6 +63,7 @@ android {
 
     }
 
+    //配置签名方式，这里配置会覆盖defaultConfig中配置的签名方式
     signingConfigs {
         release {
             storeFile file("../appsign")
@@ -69,6 +92,9 @@ android {
         _huawei{}
         _oppo{}
         _vivo{}
+        //        productFlavors.all { flavor ->
+        //            flavor.manifestPlaceholders = [APP_DOWNLOAD_CHANNEL: name]
+        //        }
     }
 
     //apk输出命名规范
@@ -103,7 +129,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 }
 
-//-----------------------自定义插件-----------------------------
 //为自定义插件传递参数
 dshJavaVersionInfo{
     versionName = rootProject.ext.android.versionName
